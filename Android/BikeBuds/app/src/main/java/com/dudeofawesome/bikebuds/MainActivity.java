@@ -19,6 +19,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -47,6 +50,8 @@ public class MainActivity extends ActionBarActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
+        turnOnUSBtether();
+
         findViewById(R.id.startRide).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,8 +59,6 @@ public class MainActivity extends ActionBarActivity
                 startActivity(intent);
             }
         });
-        Intent intent = new Intent(getApplicationContext(), BikeActivity.class);
-        startActivity(intent);
     }
 
     @Override
@@ -86,6 +89,27 @@ public class MainActivity extends ActionBarActivity
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(mTitle);
+    }
+
+    public void turnOnUSBtether() {
+        Object obj = getSystemService(Context.CONNECTIVITY_SERVICE);
+        for (Method m : obj.getClass().getDeclaredMethods()) {
+
+            if (m.getName().equals("tether")) {
+                try {
+                    m.invoke(obj, "usb0");
+                } catch (IllegalArgumentException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
 
