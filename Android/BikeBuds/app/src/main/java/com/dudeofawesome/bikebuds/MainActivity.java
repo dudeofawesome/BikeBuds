@@ -1,6 +1,7 @@
 package com.dudeofawesome.bikebuds;
 
 import android.app.Activity;
+import android.location.Location;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -18,10 +19,17 @@ import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
+
+import java.text.BreakIterator;
+
 
 public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks{
 
+
+    private GoogleApiClient mGoogleApiClient = null;
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -37,6 +45,13 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /*creates the instance of hte google api client*/
+        new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks((GoogleApiClient.ConnectionCallbacks) mGoogleApiClient)
+                .addOnConnectionFailedListener((GoogleApiClient.OnConnectionFailedListener) mGoogleApiClient)
+                .addApi(LocationServices.API)
+                .build();
+
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
@@ -45,6 +60,17 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+    }
+
+    public void onConnected(Bundle connectionHint) {
+        Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                mGoogleApiClient);
+        if (mLastLocation != null) {
+            BreakIterator mLatitudeText = null;
+            mLatitudeText.setText(String.valueOf(mLastLocation.getLatitude()));
+            BreakIterator mLongitudeText = null;
+            mLongitudeText.setText(String.valueOf(mLastLocation.getLongitude()));
+        }
     }
 
     @Override
