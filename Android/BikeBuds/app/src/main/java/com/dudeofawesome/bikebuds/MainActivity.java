@@ -1,6 +1,7 @@
 package com.dudeofawesome.bikebuds;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -45,6 +46,16 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        findViewById(R.id.startRide).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), BikeActivity.class);
+                startActivity(intent);
+            }
+        });
+        Intent intent = new Intent(getApplicationContext(), BikeActivity.class);
+        startActivity(intent);
     }
 
     @Override
