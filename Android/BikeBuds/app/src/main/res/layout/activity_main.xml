@@ -22,10 +22,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Hardware is not connected!"
+            android:text="Not connected to hardware!"
             android:id="@+id/hardwareConnectionStatus"
             android:layout_gravity="center_horizontal|top"
             android:layout_above="@+id/startRide"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Not connected to server!"
+            android:id="@+id/serverConnectionStatus"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_above="@+id/hardwareConnectionStatus"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start Server"
+            android:id="@+id/startServer"
+            android:layout_gravity="center"
+            android:layout_below="@+id/startRide"
             android:layout_centerHorizontal="true" />
     </RelativeLayout>
 

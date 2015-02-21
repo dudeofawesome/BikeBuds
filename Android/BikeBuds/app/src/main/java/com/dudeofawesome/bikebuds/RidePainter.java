@@ -26,7 +26,7 @@ public class RidePainter extends View {
     public static float deltaSpeed = 0;
     public static boolean leftBlinkerOn = true;
     public static boolean rightBlinkerOn = true;
-    public static ArrayList<Point> partyMembers = new ArrayList<Point>();
+    public static ArrayList<PartyMember> partyMembers = new ArrayList<PartyMember>();
 
     private Path roadPath = new Path();
     private Path leftBlinker = new Path();
@@ -50,12 +50,6 @@ public class RidePainter extends View {
     private void init () {
         width = getWidth();
         height = getHeight();
-
-        for (int i = 0; i < 5; i++) {
-            partyMembers.add(new Point(540, (int) (Math.random() * 1920)));
-        }
-        partyMembers.add(new Point(540, 10));
-        partyMembers.add(new Point(540, 1600));
 
         loop();
     }
@@ -103,11 +97,11 @@ public class RidePainter extends View {
         // Draw other party members
         for (int i = 0; i < partyMembers.size(); i++) {
             paint.setColor(Color.rgb(200, 200, 200));
-//            paint.setColor(partyMembers.get(i).color);
-            float heightSkew = 0.000723f * partyMembers.get(i).y + 0.342767f;
-            float widthScale = 0.000943f * partyMembers.get(i).y + 0.690566f;
+            paint.setColor(partyMembers.get(i).color);
+            float heightSkew = 0.000723f * partyMembers.get(i).position.y + 0.342767f;
+            float widthScale = 0.000943f * partyMembers.get(i).position.y + 0.690566f;
 //            float widthScale = partyMembers.get(i).y / (height + 1) + 0.8f;
-            freeAllocate.set(partyMembers.get(i).x - 30 * widthScale, partyMembers.get(i).y - 30 * heightSkew, partyMembers.get(i).x + 30 * widthScale, partyMembers.get(i).y + 30 * heightSkew);
+            freeAllocate.set(partyMembers.get(i).position.x - 30 * widthScale, partyMembers.get(i).position.y - 30 * heightSkew, partyMembers.get(i).position.x + 30 * widthScale, partyMembers.get(i).position.y + 30 * heightSkew);
             canvas.drawOval(freeAllocate, paint);
         }
 

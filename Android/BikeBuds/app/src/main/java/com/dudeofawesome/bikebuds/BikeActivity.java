@@ -5,15 +5,18 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-
 public class BikeActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bike);
-    }
 
+        InterfaceClient.connect();
+        // TODO: start GPS module once Michelle has it done
+        InterfaceClient.sendLocation(new PositionUpdate(0, 0));
+        // TODO: end test
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
