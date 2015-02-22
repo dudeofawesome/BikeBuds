@@ -16,8 +16,8 @@ import java.net.URISyntaxException;
  * Created by dudeofawesome on 2/21/15.
  */
 public class InterfaceClient {
-    private static Socket socket;
-    public static String IP_ADDRESS = "192.168.0.1";
+    private static Socket socket = null;
+    public static String IP_ADDRESS = "192.168.2.10";
 
     public static void connect () {
         try {

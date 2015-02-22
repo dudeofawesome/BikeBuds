@@ -63,8 +63,7 @@ public class MainActivity extends ActionBarActivity
         findViewById(R.id.startServer).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                InterfaceServer.context = getApplicationContext();
-                InterfaceServer.start();
+
             }
         });
     }

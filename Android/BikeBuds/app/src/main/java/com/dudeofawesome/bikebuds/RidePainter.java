@@ -96,12 +96,14 @@ public class RidePainter extends View {
 
         // Draw other party members
         for (int i = 0; i < partyMembers.size(); i++) {
+            float x = partyMembers.get(i).position.x - BikeActivity.location.x;
+            float y = partyMembers.get(i).position.y - BikeActivity.location.y;
             paint.setColor(Color.rgb(200, 200, 200));
             paint.setColor(partyMembers.get(i).color);
-            float heightSkew = 0.000723f * partyMembers.get(i).position.y + 0.342767f;
-            float widthScale = 0.000943f * partyMembers.get(i).position.y + 0.690566f;
+            float heightSkew = 0.000723f * y + 0.342767f;
+            float widthScale = 0.000943f * y + 0.690566f;
 //            float widthScale = partyMembers.get(i).y / (height + 1) + 0.8f;
-            freeAllocate.set(partyMembers.get(i).position.x - 30 * widthScale, partyMembers.get(i).position.y - 30 * heightSkew, partyMembers.get(i).position.x + 30 * widthScale, partyMembers.get(i).position.y + 30 * heightSkew);
+            freeAllocate.set(x - 30 * widthScale, y - 30 * heightSkew, x + 30 * widthScale, y + 30 * heightSkew);
             canvas.drawOval(freeAllocate, paint);
         }
 
