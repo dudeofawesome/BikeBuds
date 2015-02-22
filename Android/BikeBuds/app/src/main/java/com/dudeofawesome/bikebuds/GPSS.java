@@ -8,12 +8,14 @@ public class GPSS implements LocationListener {
 
     public static double latitude;
     public static double longitude;
+    public static double initTime;
 
     @Override
     public void onLocationChanged(Location loc)
     {
         loc.getLatitude();
         loc.getLongitude();
+        initTime = System.nanoTime();
         latitude=loc.getLatitude();
         longitude=loc.getLongitude();
     }
