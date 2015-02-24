@@ -23,6 +23,7 @@ public class RidePainter extends View {
     private int height = 0;
     private RectF freeAllocate = new RectF();
 
+    public static float speed = 0;
     public static float deltaSpeed = 0;
     public static boolean leftBlinkerOn = true;
     public static boolean rightBlinkerOn = true;
@@ -123,7 +124,7 @@ public class RidePainter extends View {
             paint.setColor(Color.WHITE);
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setTextSize(150);
-        canvas.drawText("20 mph", width / 2, height / 2 + 200, paint);
+        canvas.drawText(speed + " mph", width / 2, height / 2 + 200, paint);
 
         paint.setColor(Color.rgb(255, 176, 0));
         if (leftBlinkerOn)
