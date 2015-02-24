@@ -67,7 +67,14 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         findViewById(R.id.startServer).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                InterfaceServer.start();
+            }
+        });
 
+        findViewById(R.id.connectToServer).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InterfaceClient.connect();
             }
         });
     }
@@ -108,7 +115,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.main, menu);
             restoreActionBar();
             return true;
         }

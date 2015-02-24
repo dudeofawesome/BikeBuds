@@ -40,5 +40,5 @@ io.on('connection', function (socket) {
 
 
 server.listen(PORT, function(){
-	console.log('listening on *:22846');
+	console.log('listening on *:' + PORT);
 });

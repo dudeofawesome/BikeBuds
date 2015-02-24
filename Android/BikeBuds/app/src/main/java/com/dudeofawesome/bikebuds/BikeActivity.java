@@ -40,7 +40,6 @@ public class BikeActivity extends ActionBarActivity implements GooglePlayService
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bike);
 
-//        InterfaceClient.connect();
         // TODO: start GPS module once Michelle has it done
         mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         mlocListener = new GPSS();
