@@ -12,7 +12,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Start Ride"
+            android:text="Start Solo Ride"
             android:id="@+id/startRide"
             android:layout_gravity="center"
             android:layout_centerVertical="true"
@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Not connected to hardware!"
+            android:text="Not connected to light pack!"
             android:id="@+id/hardwareConnectionStatus"
             android:layout_gravity="center_horizontal|top"
             android:layout_above="@+id/startRide"
@@ -43,6 +43,15 @@
             android:layout_height="wrap_content"
             android:text="Start Server"
             android:id="@+id/startServer"
+            android:layout_gravity="center"
+            android:layout_below="@+id/connectToServer"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Connect to Server"
+            android:id="@+id/connectToServer"
             android:layout_gravity="center"
             android:layout_below="@+id/startRide"
             android:layout_centerHorizontal="true" />

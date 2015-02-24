@@ -25,6 +25,7 @@ public class RidePainter extends View {
 
     public static float speed = 0;
     public static float deltaSpeed = 0;
+    public static float totalDistance = 0;
     public static boolean leftBlinkerOn = true;
     public static boolean rightBlinkerOn = true;
     public static ArrayList<PartyMember> partyMembers = new ArrayList<PartyMember>();
@@ -116,15 +117,23 @@ public class RidePainter extends View {
         canvas.drawOval(freeAllocate, paint);
 
         // Draw stats
-        if (deltaSpeed > 0)
+        float roundedSpeed = ((int) (speed * 100)) / 100;
+        if (deltaSpeed > 0 && roundedSpeed != 0) {
             paint.setColor(Color.GREEN);
-        else if (deltaSpeed < 0)
+        }
+        else if (deltaSpeed < 0 && roundedSpeed != 0) {
             paint.setColor(Color.RED);
-        else
+        }
+        else {
             paint.setColor(Color.WHITE);
+        }
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setTextSize(150);
-        canvas.drawText(speed + " mph", width / 2, height / 2 + 200, paint);
+        canvas.drawText(roundedSpeed + " mph", width / 2, height / 2 + 180, paint);
+        paint.setColor(Color.WHITE);
+        paint.setTextSize(80);
+        totalDistance = ((int) (totalDistance * 100)) / 100;
+        canvas.drawText(totalDistance + " miles", width / 2, height / 2 + 270, paint);
 
         paint.setColor(Color.rgb(255, 176, 0));
         if (leftBlinkerOn)
