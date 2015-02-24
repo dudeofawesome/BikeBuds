@@ -15,7 +15,10 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import android.location.LocationListener;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.text.BreakIterator;
+import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 import android.os.Handler;
@@ -35,6 +38,10 @@ public class BikeActivity extends ActionBarActivity implements GooglePlayService
     LocationManager mlocManager;
     LocationListener mlocListener;
 
+    Calendar c = Calendar.getInstance();
+    String filename = "bike_ride_" + c.get(Calendar.YEAR) + "-" + c.get(Calendar.MONTH) + "-" + c.get(Calendar.DATE) + "-" + c.get(Calendar.HOUR) + ":" + c.get(Calendar.MINUTE);
+    FileOutputStream outputStream;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +54,11 @@ public class BikeActivity extends ActionBarActivity implements GooglePlayService
         mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
         mlocManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-
+        try {
+            outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 2; j++) {
@@ -70,8 +81,18 @@ public class BikeActivity extends ActionBarActivity implements GooglePlayService
         timer.schedule(timerTask, 0, TIMER_INTERVAL_MS);
 
 
-//        InterfaceClient.sendLocation(new PositionUpdate(0, 0));
+        InterfaceClient.sendLocation(new PositionUpdate(0, 0));
         // TODO: end test
+    }
+
+    @Override
+    protected void onDestroy () {
+        try {
+            outputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        super.onDestroy();
     }
 
     double lastSpeed = 0;
@@ -114,6 +135,13 @@ public class BikeActivity extends ActionBarActivity implements GooglePlayService
                 RidePainter.speed = (float) (averageSpeed > 0.1 ? averageSpeed : 0);
                 RidePainter.deltaSpeed = (float) (lastAverageSpeed - averageSpeed);
                 RidePainter.totalDistance = (float) totalDistance;
+
+                String logData = String.format("Latitude:%s;" + "Longitude:%s;" + "Speed:%s;" + "DistanceTraveled:%s\n", coordinates[0][0], coordinates[0][1], (averageSpeed > 0.1 ? averageSpeed : 0), totalDistance);
+                try {
+                    outputStream.write(logData.getBytes());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

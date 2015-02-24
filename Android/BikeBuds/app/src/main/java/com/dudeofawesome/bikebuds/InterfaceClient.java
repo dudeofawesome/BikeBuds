@@ -1,7 +1,10 @@
 package com.dudeofawesome.bikebuds;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
@@ -20,7 +23,7 @@ public class InterfaceClient {
     public static String IP_ADDRESS = "http://10.0.0.105";//"http://192.168.2.10";
     public static int PORT = 24537;
 
-    public static void connect () {
+    public static void connect (final TextView connectionStatus, final Button startRide) {
         try {
             socket = IO.socket(IP_ADDRESS + ":" + PORT);
         } catch (URISyntaxException e) {
@@ -30,6 +33,9 @@ public class InterfaceClient {
             @Override
             public void call(Object... args) {
                 System.out.println("CONNECTED!!!! :D");
+                connectionStatus.setText("Connected to server");
+                connectionStatus.setTextColor(Color.GREEN);
+                startRide.setText("Start Group Ride");
             }
         }).on("receive locations", new Emitter.Listener() {
             @Override
@@ -51,7 +57,8 @@ public class InterfaceClient {
     }
 
     public static void sendLocation (PositionUpdate pos) {
-        socket.emit("update location", pos);
+        if (socket != null && socket.connected())
+            socket.emit("update location", pos);
     }
 
     public static void disconnect () {

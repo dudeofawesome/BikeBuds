@@ -16,6 +16,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
@@ -67,14 +69,14 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         findViewById(R.id.startServer).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                InterfaceServer.start();
+                InterfaceServer.start((TextView) findViewById(R.id.serverConnectionStatus), (Button) findViewById(R.id.startRide));
             }
         });
 
         findViewById(R.id.connectToServer).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                InterfaceClient.connect();
+                InterfaceClient.connect((TextView) findViewById(R.id.serverConnectionStatus), (Button) findViewById(R.id.startRide));
             }
         });
     }
