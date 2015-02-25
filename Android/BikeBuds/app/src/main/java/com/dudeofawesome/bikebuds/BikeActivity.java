@@ -120,23 +120,16 @@ public class BikeActivity extends ActionBarActivity implements GooglePlayService
 
                 totalDistance += distance;
 
-                double speed = (distance / (2 * TIMER_INTERVAL_MS) * 1000 * 60 * 60); //mph
+	            double speed = (GPSS.hasSpeed) ? GPSS.speed : (distance / (2 * TIMER_INTERVAL_MS) * 1000 * 60 * 60);
                 double averageSpeed = (lastSpeed + speed) / 2;
                 lastSpeed = speed;
 
-//                TextView textB = (TextView) findViewById(R.id.textView);
-//                if (speed != 0) {
-//                    textB.setText(String.format("Latitude: %s \n" +
-//                                    "Longitude: %s \n" +
-//                                    "Speed: %s \n" +
-//                                    "Distance Traveled: %s",
-//                            coordinates[0][0], coordinates[0][1], averageSpeed, totalDistance));
-//                }
                 RidePainter.speed = (float) (averageSpeed > 0.1 ? averageSpeed : 0);
                 RidePainter.deltaSpeed = (float) (lastAverageSpeed - averageSpeed);
                 RidePainter.totalDistance = (float) totalDistance;
+	            InterfaceClient.sendLocation(new PositionUpdate(coordinates[1][0], coordinates[1][1]));
 
-                String logData = String.format("Latitude:%s;" + "Longitude:%s;" + "Speed:%s;" + "DistanceTraveled:%s\n", coordinates[0][0], coordinates[0][1], (averageSpeed > 0.1 ? averageSpeed : 0), totalDistance);
+                String logData = String.format("Latitude:%s;" + "Longitude:%s;" + "Speed:%s;" + "Altitude:%s" + "DistanceTraveled:%s" + "\n", coordinates[0][0], coordinates[0][1], (averageSpeed > 0.1 ? averageSpeed : 0), GPSS.altititude, totalDistance);
                 try {
                     outputStream.write(logData.getBytes());
                 } catch (Exception e) {

@@ -4,10 +4,10 @@ package com.dudeofawesome.bikebuds;
  * Created by dudeofawesome on 2/21/15.
  */
 public class PositionUpdate {
-    public int x;
-    public int y;
+    public double x;
+    public double y;
 
-    public PositionUpdate (int x, int y) {
+    public PositionUpdate (double x, double y) {
         this.x = x;
         this.y = y;
     }

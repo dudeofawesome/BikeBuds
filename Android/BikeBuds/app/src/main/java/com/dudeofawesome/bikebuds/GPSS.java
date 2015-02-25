@@ -8,7 +8,12 @@ public class GPSS implements LocationListener {
 
     public static double latitude;
     public static double longitude;
-    public static double initTime;
+	public static double initTime;
+	public static boolean hasSpeed;
+	public static double speed;
+	public static float bearing;
+	public static boolean hasAltititude;
+	public static double altititude;
 
     @Override
     public void onLocationChanged(Location loc)
@@ -16,8 +21,12 @@ public class GPSS implements LocationListener {
         loc.getLatitude();
         loc.getLongitude();
         initTime = System.nanoTime();
-        latitude=loc.getLatitude();
-        longitude=loc.getLongitude();
+        latitude = loc.getLatitude();
+        longitude = loc.getLongitude();
+	    hasSpeed = loc.hasSpeed();
+	    speed = loc.getSpeed();
+	    hasAltititude = loc.hasAltitude();
+	    altititude = loc.getAltitude();
     }
 
     @Override
