@@ -4,13 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,17 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesClient;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-
-import java.text.BreakIterator;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 
 public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -66,17 +52,18 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             }
         });
 
+        final Activity activity = this;
         findViewById(R.id.startServer).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                InterfaceServer.start((TextView) findViewById(R.id.serverConnectionStatus), (Button) findViewById(R.id.startRide));
+                ControllerServer.start(activity, (TextView) findViewById(R.id.serverConnectionStatus), (Button) findViewById(R.id.startRide));
             }
         });
 
         findViewById(R.id.connectToServer).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                InterfaceClient.connect((TextView) findViewById(R.id.serverConnectionStatus), (Button) findViewById(R.id.startRide));
+                ControllerClient.connect(activity, (TextView) findViewById(R.id.serverConnectionStatus), (Button) findViewById(R.id.startRide));
             }
         });
     }

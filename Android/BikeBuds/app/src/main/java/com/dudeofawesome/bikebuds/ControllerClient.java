@@ -1,5 +1,6 @@
 package com.dudeofawesome.bikebuds;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -18,14 +19,15 @@ import java.net.URISyntaxException;
 /**
  * Created by dudeofawesome on 2/21/15.
  */
-public class InterfaceClient {
+public class ControllerClient {
     private static Socket socket = null;
-    public static String IP_ADDRESS = "http://10.0.0.105";//"http://192.168.2.10";
+    public static String IP_ADDRESS = "10.0.0.105"; //"192.168.2.10";
     public static int PORT = 24537;
 
-    public static void connect (final TextView connectionStatus, final Button startRide) {
+    public static void connect (final Activity that, final TextView connectionStatus, final Button startRide) {
+        System.out.println("Trying to connect");
         try {
-            socket = IO.socket(IP_ADDRESS + ":" + PORT);
+            socket = IO.socket("http://" + IP_ADDRESS + ":" + PORT);
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
@@ -33,18 +35,28 @@ public class InterfaceClient {
             @Override
             public void call(Object... args) {
                 System.out.println("CONNECTED!!!! :D");
-                connectionStatus.setText("Connected to server");
-                connectionStatus.setTextColor(Color.GREEN);
-                startRide.setText("Start Group Ride");
+                that.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        connectionStatus.setText("Connected to server");
+                        connectionStatus.setTextColor(Color.GREEN);
+                        startRide.setText("Start Group Ride");
+                    }
+                });
             }
         }).on(Socket.EVENT_CONNECT_ERROR, new Emitter.Listener() {
-	        @Override
-	        public void call (Object... args) {
-		        System.out.println("Failed to connect");
-		        connectionStatus.setText("Failed to connected to server");
-		        connectionStatus.setTextColor(Color.RED);
-		        startRide.setText("Start Solo Ride");
-	        }
+            @Override
+            public void call(Object... args) {
+                System.out.println("Failed to connect");
+                that.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        connectionStatus.setText("Failed to connected to server");
+                        connectionStatus.setTextColor(Color.RED);
+                        startRide.setText("Start Solo Ride");
+                    }
+                });
+            }
         }).on("receive locations", new Emitter.Listener() {
 	        @Override
 	        public void call (Object... args) {
@@ -62,6 +74,7 @@ public class InterfaceClient {
 		        }
 	        }
         });
+        socket.connect();
     }
 
     public static void sendLocation (PositionUpdate pos) {
@@ -70,6 +83,7 @@ public class InterfaceClient {
     }
 
     public static void disconnect () {
-        socket.disconnect();
+        if (socket != null && socket.connected())
+            socket.disconnect();
     }
 }

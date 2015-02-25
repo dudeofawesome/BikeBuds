@@ -98,8 +98,8 @@ public class RidePainter extends View {
 
         // Draw other party members
         for (int i = 0; i < partyMembers.size(); i++) {
-            float x = (float) (partyMembers.get(i).position.x - BikeActivity.location.x);
-            float y = (float) (partyMembers.get(i).position.y - BikeActivity.location.y);
+            float x = (float) (partyMembers.get(i).position.x - ControllerLocation.location.x);
+            float y = (float) (partyMembers.get(i).position.y - ControllerLocation.location.y);
             paint.setColor(Color.rgb(200, 200, 200));
             paint.setColor(partyMembers.get(i).color);
             float heightSkew = 0.000723f * y + 0.342767f;
