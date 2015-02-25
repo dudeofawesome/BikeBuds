@@ -23,6 +23,7 @@ public class ControllerClient {
     private static Socket socket = null;
     public static String IP_ADDRESS = "10.0.0.105"; //"192.168.2.10";
     public static int PORT = 24537;
+    private static PositionUpdate lastSentLoc;
 
     public static void connect (final Activity that, final TextView connectionStatus, final Button startRide) {
         System.out.println("Trying to connect");
@@ -78,8 +79,9 @@ public class ControllerClient {
     }
 
     public static void sendLocation (PositionUpdate pos) {
-        if (socket != null && socket.connected())
+        if (socket != null  && lastSentLoc != pos && socket.connected())
             socket.emit("update location", pos);
+        lastSentLoc = pos;
     }
 
     public static void disconnect () {
