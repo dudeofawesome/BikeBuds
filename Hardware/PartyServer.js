@@ -17,13 +17,11 @@ console.log = function(d) {
 };
 var DATE = new Date();
 
-// var databaseUrl = "mongodb://localhost:27017/Auctioneer"; // "username:password@example.com/mydb"
-// var collections = ["users", "userSettings", "items", "auctions"]
-// var db = require("mongojs").connect(databaseUrl, collections);
-
+var openSockets = [];
 var partyMembers = [];
 
 io.on('connection', function (socket) {
+	openSockets.push(socket.id);
 	console.log("new user connected");
 
 	socket.on('update location', function(msg) {
@@ -31,12 +29,27 @@ io.on('connection', function (socket) {
 		partyMembers[socket.id] = msg;
 	});
 	socket.on('disconnect', function () {
+		console.log("user disconnected");
+		if (socket.timer != null)
+			clearInterval(socket.timer);
 		partyMembers[socket.id] = null;
+		for (var i = 0; i < openSockets.length; i++) {
+			if (openSockets[i] == socket.id) {
+				openSockets.splice(i, 1);
+			}
+		}
 	});
-
-	setInterval(function () {
-		io.emit("receive locations", partyMembers);
-	})
+	socket.on('start ride', function () {
+		socket.timer = setInterval(function () {
+			var locations = [];
+			for (var i = 0; i < openSockets.length; i++) {
+				// TODO: re-enable this check
+				// if (openSockets[i] != socket.id)
+					locations.push(partyMembers[openSockets[i]]);
+			}
+			io.emit("receive locations", locations, locations.length);
+		})
+	});
 });
 
 

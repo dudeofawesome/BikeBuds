@@ -18,6 +18,7 @@ public class BikeActivity extends ActionBarActivity {
         setContentView(R.layout.activity_bike);
 
         ControllerLocation.init(this);
+        ControllerClient.startRide();
 
         try {
             outputStream = openFileOutput(filename, Context.MODE_PRIVATE);

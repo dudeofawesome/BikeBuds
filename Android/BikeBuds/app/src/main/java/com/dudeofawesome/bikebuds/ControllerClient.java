@@ -13,6 +13,7 @@ import com.github.nkzawa.socketio.client.Socket;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.net.URISyntaxException;
 
@@ -21,7 +22,7 @@ import java.net.URISyntaxException;
  */
 public class ControllerClient {
     private static Socket socket = null;
-    public static String IP_ADDRESS = "10.0.0.105"; //"192.168.2.10";
+    public static String IP_ADDRESS = "75.4.18.16";//"10.0.0.105"; //"192.168.2.10";
     public static int PORT = 24537;
     private static PositionUpdate lastSentLoc;
 
@@ -62,10 +63,12 @@ public class ControllerClient {
 	        @Override
 	        public void call (Object... args) {
 		        final JSONArray members = (JSONArray) args[0];
-		        RidePainter.partyMembers.clear();
+                System.out.println("getting new data, " + members.length() + " users");
+                RidePainter.partyMembers.clear();
 		        for (int i = 0; i < members.length(); i++) {
 			        try {
-				        PositionUpdate member = (PositionUpdate) members.get(i);
+                        JSONObject memberJSON = members.getJSONObject(i);
+				        PositionUpdate member = new PositionUpdate(memberJSON.getDouble("x"), memberJSON.getDouble("y"));
 				        float[] color = {i * 20, 1, 0.5f};
 				        double[] relPos = {member.x, member.y};
 				        RidePainter.partyMembers.add(new PartyMember(new PositionUpdate(relPos[0], relPos[1]), Color.HSVToColor(color)));
@@ -78,14 +81,29 @@ public class ControllerClient {
         socket.connect();
     }
 
+    public static void startRide () {
+        if (connected())
+            socket.emit("start ride");
+    }
+
     public static void sendLocation (PositionUpdate pos) {
-        if (socket != null  && lastSentLoc != pos && socket.connected())
-            socket.emit("update location", pos);
+        if (connected() && lastSentLoc != pos) {
+            JSONObject obj = new JSONObject();
+            try {
+                obj.put("x", pos.x);
+                obj.put("y", pos.y);
+            } catch (JSONException err) {System.out.println(err.getMessage());}
+            socket.emit("update location", obj);
+        }
         lastSentLoc = pos;
     }
 
     public static void disconnect () {
-        if (socket != null && socket.connected())
+        if (connected())
             socket.disconnect();
+    }
+
+    private static boolean connected () {
+        return socket != null && socket.connected();
     }
 }

@@ -97,11 +97,13 @@ public class RidePainter extends View {
         canvas.drawPath(roadPath, paint);
 
         // Draw other party members
-        for (int i = 0; i < partyMembers.size(); i++) {
-            float x = (float) (partyMembers.get(i).position.x - ControllerLocation.location.x);
-            float y = (float) (partyMembers.get(i).position.y - ControllerLocation.location.y);
+        PartyMember[] _partyMembers = partyMembers.toArray(new PartyMember[partyMembers.size()]);
+        for (int i = 0; i < _partyMembers.length; i++) {
+            System.out.println("drawing buddy " + i);
+            float x = (float) (_partyMembers[i].position.x - ControllerLocation.location.x);
+            float y = (float) (_partyMembers[i].position.y - ControllerLocation.location.y);
             paint.setColor(Color.rgb(200, 200, 200));
-            paint.setColor(partyMembers.get(i).color);
+            paint.setColor(_partyMembers[i].color);
             float heightSkew = 0.000723f * y + 0.342767f;
             float widthScale = 0.000943f * y + 0.690566f;
 //            float widthScale = partyMembers.get(i).y / (height + 1) + 0.8f;
