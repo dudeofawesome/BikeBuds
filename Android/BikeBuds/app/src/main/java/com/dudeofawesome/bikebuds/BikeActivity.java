@@ -27,7 +27,6 @@ public class BikeActivity extends ActionBarActivity {
         }
 
         ControllerClient.sendLocation(new PositionUpdate(0, 0));
-        // TODO: end test
     }
 
     @Override

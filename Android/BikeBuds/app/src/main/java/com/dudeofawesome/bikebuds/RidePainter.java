@@ -119,11 +119,10 @@ public class RidePainter extends View {
         canvas.drawOval(freeAllocate, paint);
 
         // Draw stats
-        float roundedSpeed = ((int) (speed * 100)) / 100;
-        if (deltaSpeed > 0 && roundedSpeed != 0) {
+        if (deltaSpeed > 0 && speed != 0) {
             paint.setColor(Color.GREEN);
         }
-        else if (deltaSpeed < 0 && roundedSpeed != 0) {
+        else if (deltaSpeed < 0 && speed != 0) {
             paint.setColor(Color.RED);
         }
         else {
@@ -131,10 +130,9 @@ public class RidePainter extends View {
         }
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setTextSize(150);
-        canvas.drawText(roundedSpeed + " mph", width / 2, height / 2 + 180, paint);
+        canvas.drawText(speed + " mph", width / 2, height / 2 + 180, paint);
         paint.setColor(Color.WHITE);
         paint.setTextSize(80);
-        totalDistance = ((int) (totalDistance * 100)) / 100;
         canvas.drawText(totalDistance + " miles", width / 2, height / 2 + 270, paint);
 
         paint.setColor(Color.rgb(255, 176, 0));
