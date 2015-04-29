@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--http://paletton.com/#uid=7370u0kuas1jmzmotuEvImuC+hr-->
+    <color name="material_drawer_primary">#b93333</color>
+    <color name="material_drawer_accent">#1CB51C</color>
+    <color name="primary_dark">#b93333</color>
+</resources>
